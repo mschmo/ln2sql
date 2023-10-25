@@ -707,14 +707,14 @@ class Parser:
 
         for i in range(0, len(input_word_list)):
             for table_name in self.database_dico:
-                if (input_word_list[i] == table_name) or (
-                            input_word_list[i] in self.database_object.get_table_by_name(table_name).equivalences):
+                input_table = self.database_object.get_table_by_name(table_name)
+                if (input_word_list[i] == table_name) or (input_table is not None and input_word_list[i] in input_table.equivalences):
                     if number_of_table_temp == 0:
                         start_phrase = input_word_list[:i]
                     number_of_table_temp += 1
                     last_table_position_temp = i
 
-                columns = self.database_object.get_table_by_name(table_name).get_columns()
+                columns = input_table.get_columns()
                 for column in columns:
                     if (input_word_list[i] == column.name) or (input_word_list[i] in column.equivalences):
                         if number_of_where_column_temp == 0:
